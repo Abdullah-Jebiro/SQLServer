@@ -14,35 +14,49 @@
 
 create database midad;
 use midad;
-
-
 create table categories(
 categoryId int Primary Key identity(1,1),  --not null and unique
 categoryName  nvarchar(50) not null,
 price int check(price > 0),
 profileImage nvarchar(50) default 'default.png',
-gender char(6) check(gender in ('male' , 'female')
+gender char(6) check(gender in ('male' , 'female') )
+-- [RegularExpression("^(male|female)$", ErrorMessage = "Gender must be either 'male' or 'female'")]
+-- public string Gender { get; set; }
 )
 
 create table Books(
 Id int Primary Key identity(1,1),  --not null and unique
 bookName  nvarchar(50) not null,
 categoryId int,
-foreign Key (categoryId) references categories(categoryId)
+age int,
+-- foreign Key (categoryId) references categories(categoryId)
 )
 
+-- 8 
+Alter table Books drop column age;
+Alter table Books add descriptionBook nvarchar(250) , price int;
+Alter table Books add Constraint categoryFK
+Foreign Key(categoryId) 
+references  categories (categoryId) on delete no action;
  -- drop table categories
 
 -- not Null 
 -- Unique
 -- PRIMARY KEY
--- FOREIEGK KEY
+-- foreign KEY
 -- CHECK 
 -- DEFAULT
 -- CREATE INDEX
 -- IDENTITY
 
+-- Constraint
+-- references
 
+-- on delete no action
+-- on delete cascade
+-- on delete set null
+-- on delete set default
+--  ..........
 
 
 use NORTHWND;

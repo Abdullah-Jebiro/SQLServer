@@ -58,6 +58,45 @@ references  categories (categoryId) on delete no action;
 -- on delete set default
 --  ..........
 
+CREATE TABLE customers (
+  customer_id INT PRIMARY KEY,
+  customer_name VARCHAR(50),
+  customer_email VARCHAR(50)
+);
+
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  order_date DATE,
+  order_total DECIMAL(10,2),
+  customer_id INT,
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    ON DELETE SET DEFAULT
+); 
+CREATE TABLE students (
+  student_id INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  birthdate DATE,
+  gender CHAR(1),
+  class VARCHAR(50),
+  grade CHAR(2)
+);
+
+
+truncate  table  customers
+
+INSERT INTO customers (customer_id, customer_name, customer_email)
+VALUES (1, 'John Smith', 'john@example.com');
+
+INSERT INTO students (student_id, student_name, class, grade)
+VALUES
+  (1, 'John Smith', 'History', 'A'),
+  (2, 'Jane Doe', 'Math', 'B'),
+  (3, 'Bob Johnson', 'English', 'C'),
+  (4, 'Samantha Lee', 'Science', 'A');
+
+UPDATE students SET grade = 'A', class = 'Science' WHERE student_id = 2;
+UPDATE students SET student_name = 'S '+student_name;
+
 
 use NORTHWND;
 Select c.ContactName , COUNT(o.OrderID) as Count_Order , SUM(o.Freight) as Freight

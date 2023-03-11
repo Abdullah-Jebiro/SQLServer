@@ -95,7 +95,7 @@ VALUES
   (4, 'Samantha Lee', 'Science', 'A');
 
 UPDATE students SET grade = 'A', class = 'Science' WHERE student_id = 2;
-UPDATE students SET student_name = 'S '+student_name;
+UPDATE students SET student_name = 'S '+SUBSTRING(student_name,4, LEN(student_name));
 
 
 use NORTHWND;

@@ -140,6 +140,53 @@ order by Extension;
 Select * From Employees  
 Where BirthDate between '1993-10-17 00:00:00.000' and '1994-03-05 00:00:00.000'    
 
+Select * From Employees 
+where Employees.FirstName Like '%a%'
+
+Select * From Employees 
+where Employees.FirstName Like 'a%'
+
+Select * From Employees 
+where Employees.FirstName Like '%a'
+
+Select * From Employees 
+where Employees.FirstName Like '_____'
+
+Select * From Employees 
+where Employees.FirstName Like '%e_'
+
+Select * From Employees 
+where Employees.FirstName Like '%[abc]'
+
+Select * From Employees 
+where Employees.FirstName Like '%[^abc]'
+
+
+Select * From Employees 
+where Employees.FirstName Like '%[a-z]'
+ 
+Select * From Employees 
+where LEN(FirstName) = 5
+
+alter table Employees alter column Extension  int    -------################
+
+
+EXEC sp_rename 'Employees.Extension', 'Salary', 'COLUMN';  -------################
+
+
+SELECT *
+FROM (
+  SELECT *
+  FROM Employees
+  WHERE Employees.City IS NULL
+) subquery;
+
+
+
+
+
+
+
 
 Select c.ContactName , COUNT(o.OrderID) as Count_Order , SUM(o.Freight) as Freight
 From Customers c 
@@ -156,7 +203,7 @@ Select * From Customers;
 
 Select EmployeeID, LastName+' '+FirstName as Name,Title, TitleOfCourtesy, BirthDate, HireDate,
 Address+' '+City+''+Country as Address, Region,
-PostalCode,HomePhone, Extension, Photo, Notes, ReportsTo, PhotoPath From Employees;
+PostalCode,HomePhone, Employees.salary, Photo, Notes, ReportsTo, PhotoPath From Employees;
 
 
 Select Distinct Country,City From Customers
@@ -165,10 +212,10 @@ Order by Country;
 
 
 Select *  From Employees
-order by EmployeeID Desc;
+order by EmployeeID Desc;  -- desc
 
 Select *  From Employees
-order by FirstName Asc , len(LastName) Desc;
+order by FirstName Asc , len(LastName) Desc;   --Asc
 
 
 

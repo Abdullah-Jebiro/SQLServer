@@ -1,71 +1,94 @@
 
+SELECT COUNT(*) AS Count, 
+          SUM(Salary) AS Salary,
+          City,
+          Gender
+FROM Employees 
+GROUP BY City, Gender
+
+
+/*
+var result = Employees
+    .GroupBy(e => new { e.City, e.Gender })
+    .Select(g => new {
+        Count = g.Count(),
+        Salary = g.Sum(e => e.Salary),
+        City = g.Key.City,
+        Gender = g.Key.Gender
+    });
+*/
+
+
 
 
 WITH EmployeeStats AS (
    SELECT COUNT(*) AS Count, 
-          SUM(Extension) AS Extension,
+          SUM(Salary) AS Salary,
           City,
-          TitleOfCourtesy
+          Gender
    FROM Employees 
-   GROUP BY City, TitleOfCourtesy
+   GROUP BY City, Gender
 )
-SELECT *, CAST(Extension AS REAL) / Count AS ExtensionPerPerson
+SELECT *, CAST(Salary AS REAL) / Count AS SalaryPerPerson
 FROM EmployeeStats;
 
 
 
-SELECT COUNT(*) AS Count, AVG(CONVERT(REAL,Extension ))  as ExtensionPerPerson , SUM(Extension) AS Extension,
+SELECT COUNT(*) AS Count, AVG(CONVERT(REAL,Salary ))  as SalaryPerPerson , SUM(Salary) AS Salary,
        City,
-       TitleOfCourtesy
+       Gender
 FROM Employees 
-GROUP BY City, TitleOfCourtesy
+GROUP BY City, Gender
 
 
 
-SELECT
-    COUNT(*) AS Count,
-    SUM(Extension) AS Extension,
-    city,
-    TitleOfCourtesy,
-    CASE 
-		WHEN SUM(Extension) = (SELECT MAX(sum_extension) FROM 
-                              (SELECT SUM(Extension) AS sum_extension 
-                               FROM Employees 
-                               GROUP BY city, TitleOfCourtesy) AS temp)
-        THEN 1
-        ELSE 0
-    END AS isMax
-FROM 
-    Employees 
-GROUP BY 
-    city, TitleOfCourtesy;
+SELECT COUNT(*) AS Count,SUM(Salary) AS Salary,city,Gender,
+	CASE WHEN SUM(Salary)=(SELECT MAX(sum_Salary) FROM 
+                          (SELECT SUM(Salary) AS sum_Salary 
+                          FROM Employees 
+                          GROUP BY city, Gender) AS temp)
+						  THEN 1
+						  ELSE 0
+	END AS isMax
+FROM  Employees 
+GROUP BY city, Gender;
 
 
-SELECT COUNT(*) AS Count, SUM(Extension) AS Extension, city, TitleOfCourtesy,
-    CASE
-        WHEN SUM(Extension) = (SELECT MAX(sum_extension) FROM
-                              (SELECT SUM(Extension) AS sum_extension 
-                               FROM Employees 
-                               WHERE TitleOfCourtesy = e.TitleOfCourtesy
-                               GROUP BY city, TitleOfCourtesy) AS temp)
+SELECT SUM(Salary) AS sum_Salary FROM Employees 
+WHERE Gender = 'Female'
+GROUP BY city, Gender
+
+SELECT MAX(sum_Salary) FROM(SELECT SUM(Salary) AS sum_Salary 
+ FROM Employees 
+ WHERE Gender = 'Female'
+ GROUP BY city, Gender) AS temp
+
+SELECT COUNT(*) AS Count, SUM(Salary) AS Salary, city, Gender,
+    CASE WHEN SUM(Salary)=(SELECT MAX(sum_Salary) FROM
+                          (SELECT SUM(Salary) AS sum_Salary 
+                           FROM Employees 
+                           WHERE Gender =' e.Gender'
+                           GROUP BY city, Gender) AS temp)
         THEN 1
         ELSE 0
     END AS isMax
 FROM Employees e
-GROUP BY city, TitleOfCourtesy;
+GROUP BY city, Gender;
 
-/*var result = Employees.GroupBy(e => new { e.city, e.TitleOfCourtesy })
-                      .Select(g => new 
-                      {
-                          Count = g.Count(),
-                          Extension = g.Sum(x => x.Extension),
-                          city = g.Key.city,
-                          TitleOfCourtesy = g.Key.TitleOfCourtesy,
-                          isMax = g.Sum(x => x.Extension) == Employees.Where(x => x.TitleOfCourtesy == g.Key.TitleOfCourtesy)
-                                                                       .GroupBy(x => x.city)
-                                                                       .Select(x => x.Sum(y => y.Extension))
-                                                                       .Max() ? 1 : 0,
-                          isMaxofTitleOfCourtesy = g.Sum(x => x.Extension) == Employees.Where(x => x.TitleOfCourtesy == g.Key.TitleOfCourtesy)
-                                                                                    .Select(x => x.Extension)
-                                                                                    .Sum(x => x) ? 1 : 0
-                      });*/
+/*
+var result = Employees
+    .GroupBy(e => new { e.city, e.Gender })
+    .Select(g => new {
+        Count = g.Count(),
+        Salary = g.Sum(e => e.Salary),
+        city = g.Key.city,
+        Gender = g.Key.Gender,
+        isMax = g.Sum(e => e.Salary) == Employees
+            .Where(e => e.Gender == g.Key.Gender)
+            .GroupBy(e => new { e.city, e.Gender })
+            .Select(g2 => g2.Sum(e => e.Salary))
+            .Max() ? 1 : 0
+    });
+*/
+
+

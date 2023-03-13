@@ -13,7 +13,9 @@
 -- DCL (Data  Control Language ) Grant Revoke
 
 create database midad;
+
 use midad;
+
 create table categories(
 categoryId int Primary Key identity(1,1),  --not null and unique
 categoryName  nvarchar(50) not null,
@@ -135,7 +137,7 @@ where Country = 'Mexico' or  Country ='UK'
 Select Top 10 percent *  From Employees;
 
 Select Top 5 with ties *  From Employees
-order by Extension;
+order by Salary;
 
 Select * From Employees  
 Where BirthDate between '1993-10-17 00:00:00.000' and '1994-03-05 00:00:00.000'    
@@ -168,11 +170,16 @@ where Employees.FirstName Like '%[a-z]'
 Select * From Employees 
 where LEN(FirstName) = 5
 
-alter table Employees alter column Extension  int    -------################
+alter table Employees alter column Salary  int    -------################
 
 
 EXEC sp_rename 'Employees.Extension', 'Salary', 'COLUMN';  -------################
 
+
+EXEC sp_rename 'Employees.TitleOfCourtesy', 'Gender', 'COLUMN';  -------################
+
+update Employees set  Gender='Female' where Gender='Mrs'
+update Employees set  Gender='male' where Gender !='Female'
 
 SELECT *
 FROM (
@@ -201,7 +208,7 @@ Select Address+' '+ City+' '+Country as 'Total Address'  From Customers;
 
 Select * From Customers;
 
-Select EmployeeID, LastName+' '+FirstName as Name,Title, TitleOfCourtesy, BirthDate, HireDate,
+Select EmployeeID, LastName+' '+FirstName as Name,Title, Gender, BirthDate, HireDate,
 Address+' '+City+''+Country as Address, Region,
 PostalCode,HomePhone, Employees.salary, Photo, Notes, ReportsTo, PhotoPath From Employees;
 
@@ -225,7 +232,7 @@ order by Year(OrderDate) desc ,
 Month(OrderDate) desc , ShipVia desc;
 
 
-select min(Extension) , MAX(Extension)
+select min(Salary) , MAX(Salary)
 From Employees;
 
 Select *  From Employees 
@@ -279,9 +286,9 @@ From Customers
 select  EmployeeID,OrderDate  from Orders
 order by  EmployeeID asc , OrderDate
 
-select Sum(Convert(int,Extension)) as Extension ,City,TitleOfCourtesy
+select Sum(Convert(int,Salary)) as Salary ,City,Gender
 From Employees
-group by City,TitleOfCourtesy
+group by City,Gender
 
 
 select count(*) , len(City) 
@@ -428,7 +435,6 @@ on p.ProductID = od.ProductID inner join Orders o
 on o.OrderID = od.OrderID inner join Customers c 
 on c.CustomerID = o.CustomerID
 group by Country , ProductName) 
-
 
 
 

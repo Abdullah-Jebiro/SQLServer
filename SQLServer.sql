@@ -99,6 +99,48 @@ UPDATE students SET student_name = 'S '+SUBSTRING(student_name,4, LEN(student_na
 
 
 use NORTHWND;
+
+
+select  distinct  city from Customers   --distinct
+
+select top 5 * from Employees
+order by PostalCode
+
+
+select top 5 percent * from Customers    --percent
+order by PostalCode
+
+
+select top 5 with ties * from Employees  --with ties 
+order by PostalCode
+
+
+
+select * from Orders
+order by OrderID
+offset 10 rows
+fetch next 10 row only
+
+
+select * from Orders
+where OrderID between 10000 and 11000
+
+select * from Customers
+where Country in ('Mexico' , 'UK')
+
+
+select * from Customers
+where Country = 'Mexico' or  Country ='UK'
+
+Select Top 10 percent *  From Employees;
+
+Select Top 5 with ties *  From Employees
+order by Extension;
+
+Select * From Employees  
+Where BirthDate between '1993-10-17 00:00:00.000' and '1994-03-05 00:00:00.000'    
+
+
 Select c.ContactName , COUNT(o.OrderID) as Count_Order , SUM(o.Freight) as Freight
 From Customers c 
 inner join Orders o
@@ -120,19 +162,6 @@ PostalCode,HomePhone, Extension, Photo, Notes, ReportsTo, PhotoPath From Employe
 Select Distinct Country,City From Customers
 Order by Country;
  
-
-Select Top 10 percent *  From Employees;
-
-Select Top 5 with ties *  From Employees
-order by Extension;
-
-Select * From Employees  
-Where BirthDate between '1993-10-17 00:00:00.000' and '1994-03-05 00:00:00.000'  
-
-select * from Customers
-order by Country
-offset 10 rows
-fetch next 5 rows only
 
 
 Select *  From Employees

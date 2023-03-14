@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Courses\\NORTHWND\\NORTHWND\\NORTHWND.csproj": {}
+    "D:\\Courses\\1000-Programmer\\Database Sql Server\\SQLServer\\NORTHWND\\NORTHWND\\NORTHWND.csproj": {}
   },
   "projects": {
-    "D:\\Courses\\NORTHWND\\NORTHWND\\NORTHWND.csproj": {
+    "D:\\Courses\\1000-Programmer\\Database Sql Server\\SQLServer\\NORTHWND\\NORTHWND\\NORTHWND.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Courses\\NORTHWND\\NORTHWND\\NORTHWND.csproj",
+        "projectUniqueName": "D:\\Courses\\1000-Programmer\\Database Sql Server\\SQLServer\\NORTHWND\\NORTHWND\\NORTHWND.csproj",
         "projectName": "NORTHWND",
-        "projectPath": "D:\\Courses\\NORTHWND\\NORTHWND\\NORTHWND.csproj",
+        "projectPath": "D:\\Courses\\1000-Programmer\\Database Sql Server\\SQLServer\\NORTHWND\\NORTHWND\\NORTHWND.csproj",
         "packagesPath": "C:\\Users\\abdullah\\.nuget\\packages\\",
-        "outputPath": "D:\\Courses\\NORTHWND\\NORTHWND\\obj\\",
+        "outputPath": "D:\\Courses\\1000-Programmer\\Database Sql Server\\SQLServer\\NORTHWND\\NORTHWND\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\DevExpress 22.1\\Components\\Offline Packages",

@@ -1,5 +1,5 @@
 ﻿
-
+using NORTHWND.Models;
 using (var context = new NorthwndContext())
 {
     var result = context.Employees

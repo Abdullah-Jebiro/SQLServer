@@ -178,7 +178,7 @@ EXEC sp_rename 'Employees.Extension', 'Salary', 'COLUMN';  -------##############
 
 EXEC sp_rename 'Employees.TitleOfCourtesy', 'Gender', 'COLUMN';  -------################
 
-update Employees set  Gender='Female' where Gender='Mrs'
+update Employees set  Gender='Female' where Employees.EmployeeID%2=1
 update Employees set  Gender='male' where Gender !='Female'
 
 SELECT *

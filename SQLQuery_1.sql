@@ -63,17 +63,65 @@ SELECT MAX(sum_Salary) FROM(SELECT SUM(Salary) AS sum_Salary
  WHERE Gender = 'Female'
  GROUP BY city, Gender) AS temp
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 SELECT COUNT(*) AS Count, SUM(Salary) AS Salary, city, Gender,
     CASE WHEN SUM(Salary)=(SELECT MAX(sum_Salary) FROM
                           (SELECT SUM(Salary) AS sum_Salary 
                            FROM Employees 
-                           WHERE Gender =' e.Gender'
+                           WHERE Gender =e.Gender
                            GROUP BY city, Gender) AS temp)
         THEN 1
         ELSE 0
     END AS isMax
 FROM Employees e
 GROUP BY city, Gender;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 var result = Employees

@@ -109,14 +109,27 @@ select top 5 * from Employees
 order by PostalCode
 
 
-select top 5 percent * from Customers    --percent
+select top 25 percent * from Customers    --percent
 order by PostalCode
 
 
 select top 5 with ties * from Employees  --with ties 
-order by PostalCode
+order by Country
 
 
+/*
+    var topEmployees = context.Employees
+    .OrderBy(e => e.Country)
+    .Take(5)
+    .ToList();
+    var maxCountry = topEmployees.Select(e => e.Country).Max();
+    var topEmployees2 = context.Employees.Where(e => e.Country== maxCountry).ToList();
+
+    topEmployees = topEmployees.Union(topEmployees2).ToList();
+	*/
+
+	--intersect
+	--Except
 
 select * from Orders
 order by OrderID
@@ -315,7 +328,6 @@ Select CategoryName , COUNT(ProductName) as Count_Product
 from Products join Categories
 on Products.CategoryID = Categories.CategoryID
 group by CategoryName
-
 having COUNT(ProductName) > 5
 order by COUNT(ProductName) Desc
 
@@ -356,17 +368,9 @@ from Employees
 
 Select Employees.EmployeeID
 from Employees Where EmployeeID >5
-Union all
+Union all                         ---Union all
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
-
-
-Select Employees.EmployeeID
-from Employees Where EmployeeID >5
-Union all
-Select Employees.EmployeeID
-from Employees Where EmployeeID <7
-
 
 -------------------------------------
 -------------------------------------
@@ -377,7 +381,7 @@ on c.CategoryID=p.CategoryID
 Where p.CategoryID is Null
 Union
 Select  p.ProductName, c.CategoryName 
-From  Products p   Right Join Categories c
+From  Products p Right Join Categories c
 on c.CategoryID=p.CategoryID
 Where p.CategoryID is Null
 
@@ -386,14 +390,14 @@ Where p.CategoryID is Null
 
 Select Employees.EmployeeID
 from Employees Where EmployeeID >5
-intersect
+intersect                                --intersect
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
 
 
 Select Employees.EmployeeID
 from Employees Where EmployeeID >5
-except
+except                                   --except
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
 
@@ -435,10 +439,4 @@ on p.ProductID = od.ProductID inner join Orders o
 on o.OrderID = od.OrderID inner join Customers c 
 on c.CustomerID = o.CustomerID
 group by Country , ProductName) 
-
-
-
-
-
-
 

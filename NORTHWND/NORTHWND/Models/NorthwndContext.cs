@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace NORTHWND.Models;
 
@@ -74,7 +75,12 @@ public partial class NorthwndContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Data Source=DESKTOP-LQFS6V0\\SQLEXPRESS;Initial Catalog=NORTHWND;Integrated Security=True; TrustServerCertificate=true;");
+        optionsBuilder.LogTo(log => Console.WriteLine(log),
+          new[] { DbLoggerCategory.Database.Command.Name },
+          LogLevel.Information)
+          .EnableSensitiveDataLogging();
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");

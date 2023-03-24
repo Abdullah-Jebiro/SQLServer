@@ -63,31 +63,6 @@ GROUP BY city, Gender) AS temp
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 SELECT COUNT(*) AS Count, SUM(Salary) AS Salary, city, Gender,
     CASE WHEN SUM(Salary)=(SELECT MAX(sum_Salary) FROM
                           (SELECT SUM(Salary) AS sum_Salary 

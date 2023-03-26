@@ -93,6 +93,32 @@ Group by e.FirstName+' '+ e.LastName
 ) as Temp
 
 
+Select * Into TempTable From(
+Select COUNT(*) As COUNT,p.ProductName , c.Country From Products p
+Inner Join  [Order Details] od 
+on p.ProductID = od.ProductID
+Inner Join Orders o 
+on o.OrderID = od.OrderID
+Inner Join Customers c
+on c.CustomerID=o.CustomerID
+Group By p.ProductName,c.Country 
+) as Temp
+
+
+Insert Into TempTable Select * From(
+Select COUNT(*) As COUNT,p.ProductName , c.Country From Products p
+Inner Join  [Order Details] od 
+on p.ProductID = od.ProductID
+Inner Join Orders o 
+on o.OrderID = od.OrderID
+Inner Join Customers c
+on c.CustomerID=o.CustomerID
+Group By p.ProductName,c.Country 
+) as Temp
+ 
+Delete From TempTable
+ 
+Select COUNT(*) From TempTable
 
 Select  c.City , COUNT(*) as COUNT
 From Orders o Inner Join Customers c

@@ -71,3 +71,21 @@ Return @FisrtName+ ' ' + @LastName
 End
 
 Select dbo.getFullName(e.FirstName ,e.LastName) as FullName FRom Employees e
+
+Create Function getListEmployees(@Salary int)
+Returns Table
+as
+Return(Select *  From Employees e Where e.Salary>@Salary )
+
+Select * From dbo.getListEmployees(500);
+
+
+Create Function getListCustomers()
+Returns @Table Table(First nvarchar(max) ,Last nvarchar(max))
+Begin
+	Insert Into @Table
+	Select e.FirstName , E.LastName From Employees e
+	Return
+End
+
+Select * From dbo.getListCustomers();

@@ -4,6 +4,11 @@ LEFT JOIN [Orders] AS [o] ON [e].[EmployeeID] = [o].[EmployeeID]
 ORDER BY e.FirstName ,o.CustomerID
 
 
+ Select * 
+ From Categories c Full Join Products p
+ on c.CategoryID=p.CategoryID
+ Where p.CategoryID is Null
+
 Select distinct e.FirstName , c.City From Employees e
 Inner Join Orders o
 on e.EmployeeID=o.EmployeeID Inner Join Customers c
@@ -57,6 +62,19 @@ Inner Join [Order Details] od On od.OrderID = o.OrderID
 Group By c.ContactName  
 Having COUNT(*)>10
 Order By COUNT Desc
+
+
+Select * from
+Products,Categories
+where Products.CategoryID=Categories.CategoryID
+or Products.CategoryID is null
+order by ProductID
+
+
+ Select * 
+ From Categories c Left Join Products p
+ on c.CategoryID=p.CategoryID
+
   
    
     

@@ -40,8 +40,17 @@ Alter table Books add descriptionBook nvarchar(250) , price int;
 Alter table Books add Constraint categoryFK
 Foreign Key(categoryId) 
 references  categories (categoryId) on delete no action;
- -- drop table categories
 
+Select * From Books
+
+ALTER TABLE Books ADD CONSTRAINT df_City DEFAULT 'Sandnes' FOR descriptionBook;
+ALTER TABLE Persons ADD CHECK (Age>=18);
+ALTER TABLE Books ADD CONSTRAINT constraint_name UNIQUE (column_name);
+ALTER TABLE Employees alter column Salary  int  
+EXEC sp_rename 'Employees.Extension', 'Salary', 'COLUMN';  
+EXEC sp_rename 'Employees.TitleOfCourtesy', 'Gender', 'COLUMN';  
+
+ -- drop table categories
 -- not Null 
 -- Unique
 -- PRIMARY KEY
@@ -58,7 +67,6 @@ references  categories (categoryId) on delete no action;
 -- on delete cascade
 -- on delete set null
 -- on delete set default
---  ..........
 
 CREATE TABLE customers (
   customer_id INT PRIMARY KEY,
@@ -84,7 +92,7 @@ CREATE TABLE students (
 );
 
 
-truncate  table  customers
+truncate  table  customers  
 
 INSERT INTO customers (customer_id, customer_name, customer_email)
 VALUES (1, 'John Smith', 'john@example.com');
@@ -103,96 +111,20 @@ UPDATE students SET student_name = 'S '+SUBSTRING(student_name,4, LEN(student_na
 use NORTHWND;
 
 
-select  distinct  city from Customers   --distinct
-
-select top 5 * from Employees
-order by PostalCode
-
-
-select top 25 percent * from Customers    --percent
-order by PostalCode
-
-
-select top 5 with ties * from Employees  --with ties 
-order by Country
-
-
 /*
-    var topEmployees = context.Employees
-    .OrderBy(e => e.Country)
-    .Take(5)
-    .ToList();
-    var maxCountry = topEmployees.Select(e => e.Country).Max();
-    var topEmployees2 = context.Employees.Where(e => e.Country== maxCountry).ToList();
+var topEmployees = context.Employees
+.OrderBy(e => e.Country)
+.Take(5)
+.ToList();
+var maxCountry = topEmployees.Select(e => e.Country).Max();
+var topEmployees2 = context.Employees.Where(e => e.Country== maxCountry).ToList();
+topEmployees = topEmployees.Union(topEmployees2).ToList();
+*/
 
-    topEmployees = topEmployees.Union(topEmployees2).ToList();
-	*/
-
-	--intersect
-	--Except
-
-select * from Orders
-order by OrderID
-offset 10 rows
-fetch next 10 row only
+--intersect
+--Except
 
 
-select * from Orders
-where OrderID between 10000 and 11000
-
-select * from Customers
-where Country in ('Mexico' , 'UK')
-
-
-select * from Customers
-where Country = 'Mexico' or  Country ='UK'
-
-Select Top 10 percent *  From Employees;
-
-Select Top 5 with ties *  From Employees
-order by Salary;
-
-Select * From Employees  
-Where BirthDate between '1993-10-17 00:00:00.000' and '1994-03-05 00:00:00.000'    
-
-Select * From Employees 
-where Employees.FirstName Like '%a%'
-
-Select * From Employees 
-where Employees.FirstName Like 'a%'
-
-Select * From Employees 
-where Employees.FirstName Like '%a'
-
-Select * From Employees 
-where Employees.FirstName Like '_____'
-
-Select * From Employees 
-where Employees.FirstName Like '%e_'
-
-Select * From Employees 
-where Employees.FirstName Like '%[abc]'
-
-Select * From Employees 
-where Employees.FirstName Like '%[^abc]'
-
-
-Select * From Employees 
-where Employees.FirstName Like '%[a-z]'
- 
-Select * From Employees 
-where LEN(FirstName) = 5
-
-alter table Employees alter column Salary  int    -------################
-
-
-EXEC sp_rename 'Employees.Extension', 'Salary', 'COLUMN';  -------################
-
-
-EXEC sp_rename 'Employees.TitleOfCourtesy', 'Gender', 'COLUMN';  -------################
-
-update Employees set  Gender='Female' where Employees.EmployeeID%2=1
-update Employees set  Gender='male' where Gender !='Female'
 
 SELECT *
 FROM (
@@ -201,11 +133,11 @@ FROM (
   WHERE Employees.City IS NULL
 ) subquery;
 
-
-
-
-
-
+insert  into TempTable select * from (select COUNT(*) Country , ProductName from Products p inner join [Order Details] od
+on p.ProductID = od.ProductID inner join Orders o
+on o.OrderID = od.OrderID inner join Customers c 
+on c.CustomerID = o.CustomerID
+group by Country , ProductName) 
 
 
 Select c.ContactName , COUNT(o.OrderID) as Count_Order , SUM(o.Freight) as Freight
@@ -214,87 +146,13 @@ inner join Orders o
 on c.CustomerID = o.CustomerID
 group by ContactName
 
-
-Select * From Employees;
-
-Select Address+' '+ City+' '+Country as 'Total Address'  From Customers;
-
-Select * From Customers;
-
-Select EmployeeID, LastName+' '+FirstName as Name,Title, Gender, BirthDate, HireDate,
-Address+' '+City+''+Country as Address, Region,
-PostalCode,HomePhone, Employees.salary, Photo, Notes, ReportsTo, PhotoPath From Employees;
-
-
-Select Distinct Country,City From Customers
-Order by Country;
- 
-
-
-Select *  From Employees
-order by EmployeeID Desc;  -- desc
-
-Select *  From Employees
-order by FirstName Asc , len(LastName) Desc;   --Asc
-
-
-
-
 Select *  From Orders
 order by Year(OrderDate) desc ,
 Month(OrderDate) desc , ShipVia desc;
 
 
-select min(Salary) , MAX(Salary)
-From Employees;
-
-Select *  From Employees 
-where EmployeeID <> 4
-
-Select *  From Employees 
-where EmployeeID between  4  and 8
-
-
-Select *  From Employees 
-where EmployeeID in  ('USA','UK')
-
-
-Select *  From Employees 
-where EmployeeID like  'a%'
-
-
-Select *  From Employees 
-where FirstName like  '%a'
-
-Select *  From Employees 
-where FirstName like  '%pa'
-
-
-Select *  From Employees 
-where Employees.FirstName like  '_a%'
-
-Select ContactName  From Customers 
-where Customers.ContactName like  '_[abc]%'
-
-Select ContactName  From Customers 
-where Customers.ContactName like  '[^abc]%'
-
-
-Select ContactName  From Customers 
-where Customers.ContactName like  '[a-z]%'
-
-Select *  From Employees 
-where len(Employees.FirstName)>4
-
-
-
-Select *  From Customers 
-where Region is null
-
-
 Select * , ISNULL(Region,'TI') as Region
 From Customers 
-
 
 select  EmployeeID,OrderDate  from Orders
 order by  EmployeeID asc , OrderDate
@@ -302,56 +160,6 @@ order by  EmployeeID asc , OrderDate
 select Sum(Convert(int,Salary)) as Salary ,City,Gender
 From Employees
 group by City,Gender
-
-
-select count(*) , len(City) 
-From Employees
-group by  len(City) 
-having len(City) < 100;
-
-
-Select * from
-Products,Categories
-where Products.CategoryID=Categories.CategoryID
-or Products.CategoryID is null
-order by ProductID
-
-
-Select ProductID,CategoryName , ProductName, SupplierID, QuantityPerUnit, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued from
-Products join Categories
-on Products.CategoryID = Categories.CategoryID
-order by CategoryName
-
-
-
-Select CategoryName , COUNT(ProductName) as Count_Product
-from Products join Categories
-on Products.CategoryID = Categories.CategoryID
-group by CategoryName
-having COUNT(ProductName) > 5
-order by COUNT(ProductName) Desc
-
-
-Select c.ContactName , COUNT(o.OrderID) as Count_Order , SUM(o.Freight) as Freight
-From Customers c 
-inner join Orders o
-on c.CustomerID = o.CustomerID
-group by ContactName
-
-Select * From Orders ,Customers 
-where Orders.CustomerID=Customers.CustomerID and
-ContactName = 'Alejandra Camino'
-
-
- Select * 
- From Categories c Left Join Products p
- on c.CategoryID=p.CategoryID
-
- Select * 
- From Categories c Full Join Products p
- on c.CategoryID=p.CategoryID
- Where p.CategoryID is Null
-
 
 Select Employees.EmployeeID
 from Employees
@@ -372,9 +180,6 @@ Union all                         ---Union all
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
 
--------------------------------------
--------------------------------------
-
 Select p.ProductName, c.CategoryName
 From  Products p Left Join  Categories c
 on c.CategoryID=p.CategoryID
@@ -385,8 +190,6 @@ From  Products p Right Join Categories c
 on c.CategoryID=p.CategoryID
 Where p.CategoryID is Null
 
--------------------------------------
--------------------------------------
 
 Select Employees.EmployeeID
 from Employees Where EmployeeID >5
@@ -394,49 +197,16 @@ intersect                                --intersect
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
 
-
 Select Employees.EmployeeID
 from Employees Where EmployeeID >5
 except                                   --except
 Select Employees.EmployeeID
 from Employees Where EmployeeID <7
 
-select * , case
-when EmployeeID >3 then 'no'
-when EmployeeID <3 then 'yes'
-end as 'status'
-From Employees 
-
-select * , case
-when EmployeeID >3 then 'no'
-else 'yes'
-end as 'status'
-From Employees 
-
-select * ,iif(EmployeeID>=300,'no','yes')
-From Employees 
-
-Select Employees.FirstName,
-Employees.Region,Employees.Country 
-From Employees
-order by(
-Case When Region is null then Country
-Else Region
-end)
 
 
-select count(*) , Customers.Country from Customers
-group by Customers.Country
 
-select COUNT(*) Country , ProductName from Products p inner join [Order Details] od
-on p.ProductID = od.ProductID inner join Orders o
-on o.OrderID = od.OrderID inner join Customers c 
-on c.CustomerID = o.CustomerID
-group by Country , ProductName
 
-insert  into TempTable select * from (select COUNT(*) Country , ProductName from Products p inner join [Order Details] od
-on p.ProductID = od.ProductID inner join Orders o
-on o.OrderID = od.OrderID inner join Customers c 
-on c.CustomerID = o.CustomerID
-group by Country , ProductName) 
+
+
 

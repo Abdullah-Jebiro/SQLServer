@@ -56,3 +56,7 @@ SELECT COUNT(*) AS Count, AVG(CONVERT(REAL,Salary ))  as SalaryPerPerson , SUM(S
 FROM Employees 
 GROUP BY City, Gender
 
+SELECT count(*) , len(City) 
+From Employees
+GROUP BY   len(City) 
+Having len(City) < 100;

@@ -1,5 +1,3 @@
-
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Select e.FirstName+' '+ e.LastName AS Employee  , SUM(od.UnitPrice * od.Quantity) As Total , COUNT(od.ProductID) As CountProduct, SUM(od.Quantity) As Quantity
@@ -22,16 +20,24 @@ On c.CustomerID =temp.CustomerID
 Order By Total Desc
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
+SELECT [c].[ContactName], [c].[City], (
+    SELECT COUNT(*)
+    FROM [Orders] AS [o1]
+    WHERE [o1].[CustomerID] = [c].[CustomerID]) AS [CountOrder], COUNT(*) AS [CountProduct], COALESCE(SUM(CAST([o0].[Quantity] AS int)), 0) AS [Quantity], COALESCE(SUM([o0].[UnitPrice] * CAST([o0].[Quantity] AS money)), 0.0) AS [Total]
+FROM [Customers] AS [c]
+INNER JOIN [Orders] AS [o] ON [c].[CustomerID] = [o].[CustomerID]
+INNER JOIN [Order Details] AS [o0] ON [o].[OrderID] = [o0].[OrderID]
+GROUP BY [c].[ContactName], [c].[City], [c].[CustomerID]
+ORDER BY COALESCE(SUM([o0].[UnitPrice] * CAST([o0].[Quantity] AS money)), 0.0) DESC
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Select e.FirstName ,
 (CONVERT(Float,e.Salary)/(Select MAX(Salary) From Employees)*100) 
 From Employees e
 
 
 Select e.FirstName ,
-(Select CONVERT(Float,e.Salary)/MAX(Salary) From Employees)
+(Select CONVERT(Float,e.Salary)/Sum(Salary) From Employees)*100
 From Employees e
 
 
@@ -82,14 +88,12 @@ Group by e.FirstName+' '+ e.LastName
 Select SUM(od.UnitPrice * od.Quantity) From  [Order Details] od
 
 Select SUM(Temp.Total ) From (
-
 Select e.FirstName+' '+ e.LastName AS Employee  , SUM(od.UnitPrice * od.Quantity) As Total , COUNT(od.ProductID) As CountProduct, SUM(od.Quantity) As Quantity
 From Orders o Inner Join [Order Details] od
 On o.OrderID = od.OrderID
 Inner Join Employees e
 On e.EmployeeID = o.EmployeeID
 Group by e.FirstName+' '+ e.LastName 
-
 ) as Temp
 
 

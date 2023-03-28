@@ -1,6 +1,6 @@
- declare @x int =9;
- Select * From Employees e
- Where e.EmployeeID=9
+declare @x int =9;
+Select * From Employees e
+Where e.EmployeeID=9
 declare @CustomersCity nvarchar(max);
 Set @CustomersCity = (Select c.City From Customers c  Where c.CustomerID='ANTON')
 Select @CustomersCity as CustomersCity
